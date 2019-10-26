@@ -44,6 +44,8 @@ html_logo = 'static/common/logo.png'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.extlinks',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -53,6 +55,19 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
+
+# This config value contains the locations and names of other projects that
+# should be linked to in this documentation.
+intersphinx_mapping = {'pyqgis_api': ('https://qgis.org/pyqgis/{}/'.format(version if version != 'testing' else 'master'), None)}
+
+# This config value must be a dictionary of external sites, mapping unique short
+# alias names to a base URL and a prefix.
+extlinks = {'api': ('https://qgis.org/api/{}%s'.format(''.join([version, '/']) if version != 'testing' else ''), None),
+            'pyqgis': ('https://qgis.org/pyqgis/{}/%s'.format(version if version != 'testing' else 'master'), None),
+            'source': ('https://github.com/qgis/QGIS/blob/{}/%s'.format(
+                ''.join(['release-', version]).replace('.', '_') if version != 'testing' else 'master'), None)
+           }
+
 
 # -- Internationalisation ----------------------------------------------------
 
@@ -111,3 +126,31 @@ html_theme_path = ['../themes']
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['static']
+
+# adding this because in pycookbook a lot of text is referencing classes, which cannot be found by sphinx
+# eg: Map canvas is implemented as :class:`QgsMapCanvas` ...
+# I hope somebody will create the real references for these so they can be removed here...
+nitpick_ignore = [
+                  ('py:class', 'QDomElement'),
+                  ('py:class', 'QAction'),
+                  ('py:class', 'QMenu'),
+
+                  ('py:data', 'iface'),
+                  ('py:data', 'qgis.utils.iface'),
+
+                  ('py:func', 'classFactory'),
+                  ('py:func', '__init__'),
+                  ('py:func', 'initGui'),
+                  ('py:func', 'hide'),
+                  ('py:func', 'requestReady'),
+                  ('py:func', 'sendResponse'),
+                  ('py:func', 'serverClassFactory'),
+                  ('py:func', 'show'),
+                  ('py:func', 'showPluginHelp'),
+                  ('py:func', 'unload'),
+
+                  ('py:mod', 'qgis.core'),
+                  ('py:mod', 'qgis.gui'),
+                  ('py:mod', 'qgis.utils'),
+                  ]
+
