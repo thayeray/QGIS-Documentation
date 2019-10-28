@@ -1,4 +1,5 @@
-venv
-build
 *.swp
 *.mo
+build
+user.mk
+venv
