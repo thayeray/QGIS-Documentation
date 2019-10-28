@@ -13,12 +13,13 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+from datetime import datetime
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'QGIS Documentation Project'
-copyright = '2002-now, QGIS project'
+copyright = '2002-{}, QGIS project'.format( datetime.now().year )
 author = 'QGIS Authors'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -96,13 +97,13 @@ html_theme_options = {
     # includehidden:Specifies if the navigation includes hidden table(s) of contents – that is, any toctree directive that is marked with the :hidden: option. Default: True,
     'includehidden': True,
     # canonical_url: This will specify a canonical URL meta link element to tell search engines which URL should be ranked as the primary URL for your documentation. This is important if you have multiple URLs that your documentation is available through. The URL points to the root path of the documentation and requires a trailing slash.
-    'canonical_url': '',
+    'canonical_url': 'https://docs.qgis.org/latest/',
     # display_version: If True, the version number is shown at the top of the sidebar. Default: True,
     'display_version': True,
     # logo_only: Only display the logo image, do not display the project name at the top of the sidebar. Default: False,
     'logo_only': False,
     # prev_next_buttons_location': Location to display Next and Previous buttons. This can be either bottom, top, both , or None. Default: 'bottom',
-    'prev_next_buttons_location': 'bottom',
+    'prev_next_buttons_location': 'both',
     # style_external_links': Add an icon next to external links. Default: False,
     'style_external_links': False,
     # vcs_pageview_mode': Changes how to view files when using display_github, display_gitlab, etc. When using GitHub or GitLab this can be: blob (default), edit, or raw. On Bitbucket, this can be either: view (default) or edit. '',
@@ -127,6 +128,16 @@ html_theme_path = ['../themes']
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['static']
+
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "qgis", # Username
+    "github_repo": "QGIS-Documentation", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "/source/", # Path in the checkout to the docs root
+}
+
+html_favicon = 'static/common/qgis_logo.ico'
 
 # adding this because in pycookbook a lot of text is referencing classes, which cannot be found by sphinx
 # eg: Map canvas is implemented as :class:`QgsMapCanvas` ...
