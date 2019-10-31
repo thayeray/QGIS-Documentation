@@ -46,11 +46,13 @@ updatestatic:
 	rsync -uthvr --delete $(RESOURCEDIR)/ $(SOURCEDIR)/static
 
 html: updatestatic
-	echo "$(SPHINXOPTS) $(SPHINXINTLOPTS)"
+	# ONLY in the english version run in nit-picky mode, so source errors/warnings will fail in Travis
+	#  -n   Run in nit-picky mode. Currently, this generates warnings for all missing references.
+	#  -W   Turn warnings into errors. This means that the build stops at the first warning and sphinx-build exits with exit status 1.
 	if [ $(LANG) != "en" ]; then \
-		$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXINTLOPTS) $(0); \
+		$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html/$(LANG); \
 	else \
-		$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(0); \
+		$(SPHINXBUILD) -n -W -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html/$(LANG); \
 	fi
 
 site: html
@@ -58,5 +60,3 @@ site: html
 
 doctest:
 	$(SPHINXBUILD) -b doctest $(ALLSPHINXOPTS) $(BUILDDIR)/doctest
-	@echo "Testing of doctests in the sources finished, look at the " \
-	      "results in $(BUILDDIR)/doctest/output.txt."
