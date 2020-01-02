@@ -35,8 +35,7 @@ You can also use your own virtual env by creating it using it first::
 Then activate the venv and install the requirements via the REQUIRMENTS.txt::
 
  source ./venv/bin/activate
- # using --pre here to get the not released yet 2.0 version of Sphinx
- pip install --pre -r REQUIREMENTS.txt
+ pip install -r REQUIREMENTS.txt
 
 and run the build from within that venv::
 
