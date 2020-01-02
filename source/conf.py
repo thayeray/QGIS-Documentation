@@ -1,4 +1,4 @@
-# Configuration file for the Sphinx documentation builder.
+# Configuration file for the QGIS documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
@@ -17,9 +17,18 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'QGISDoc'
+project = 'QGIS Documentation Project'
 copyright = '2002-now, QGIS project'
 author = 'QGIS Authors'
+
+# The version info for the project you're documenting, acts as replacement for
+# |version| and |release|, also used in various other places throughout the
+# built documents.
+#
+# The short X.Y version.
+version = 'testing'
+# The full version, including alpha/beta/rc tags.
+release = 'testing'
 
 
 # -- General configuration ---------------------------------------------------
@@ -89,7 +98,7 @@ html_theme_options = {
     # titles_only: When enabled, page subheadings are not included in the navigation. Default: False
     'titles_only': False,
     # 'github_url' Force the Edit on GitHub button to use the configured URL.
-     'github_url': 'https://github.com/rduivenvoorde/qgisdoc',
+     'github_url': 'https://github.com/qgis/QGIS-Documentation',
     # 'gitlab_url' Force the Edit on GitLab button to use the configured URL.
     # 'gitlab_url': 'xxx',
 }
