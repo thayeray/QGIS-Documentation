@@ -1,0 +1,4 @@
+
+version_list: testing, latest, 3.10, 3.4, 2.18
+supported_languages: en
+docs_url: https://docs.qgis.org/

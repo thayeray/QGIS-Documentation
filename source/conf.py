@@ -10,11 +10,17 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
+import os
+import sys
+import yaml
 # sys.path.insert(0, os.path.abspath('.'))
-from datetime import datetime
 
+sys.path.insert(0, os.path.abspath('../../'))
+
+with open('../docs_conf.yml', 'r') as f:
+    cfg = yaml.safe_load(f)
+
+from datetime import datetime
 
 # -- Project information -----------------------------------------------------
 
@@ -28,8 +34,6 @@ author = 'QGIS Authors'
 #
 # The short X.Y version.
 version = 'testing'
-# The full version, including alpha/beta/rc tags.
-release = 'testing'
 
 
 # -- General configuration ---------------------------------------------------
@@ -133,11 +137,32 @@ html_context = {
     "display_github": True, # Integrate GitHub
     "github_user": "qgis", # Username
     "github_repo": "QGIS-Documentation", # Repo name
-    "github_version": "master", # Version
+    "github_version": version, # '{}'.format("master" if version="testing" else version), # Version
     "conf_py_path": "/source/", # Path in the checkout to the docs root
 }
 
 html_favicon = 'static/common/qgis_logo.ico'
+
+version_list = cfg['version_list'].replace(' ','').split(',')
+url = cfg['docs_url']
+if not url.endswith('/'):
+  url += '/'
+
+if version not in version_list:
+  raise ValueError('QGIS version is not in version list', version, version_list)
+
+context = {
+    # 'READTHEDOCS': True,
+    'version_downloads': False,
+    'current_version': version,
+    'versions': [ [v, url+v] for v in version_list],
+    # 'downloads': [ ['PDF', '/builders.pdf'], ['HTML', '/builders.tgz'] ],
+}
+
+if 'html_context' in globals():
+    html_context.update(context)
+else:
+    html_context = context
 
 # adding this because in pycookbook a lot of text is referencing classes, which cannot be found by sphinx
 # eg: Map canvas is implemented as :class:`QgsMapCanvas` ...
