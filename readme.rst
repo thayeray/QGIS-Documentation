@@ -181,27 +181,6 @@ Alike the html build command, you need to run make with the option to build pdf
  make LANG=xx pdf
 
 
-Building the Documentation using Docker
-=======================================
-
-Docker is an open platform for distributed applications for developers and
-sysadmins (https://www.docker.com/).
-
-Docker can be used on Linux, MacOS  and Windows.
-
-In order to use a Docker instance to build the documentation, you can use
-one of the scripts provided with QGIS-Documentation. The image will be installed
-if not already present.
-
-#. install Docker (see https://docs.docker.com/engine/installation/)
-#. go to your local QGIS-Documentation repository to build the doc:
-
-   .. code-block:: bash
-
-    cd QGIS-Documentation/
-    ./docker-run.sh LANG=fr html
-
-
 Building the Documentation using Windows - minimal setup
 ========================================================
 Prerequisites:
@@ -250,61 +229,6 @@ Prerequisites:
      $ sphinx-build -M html source build
 
    This will generate the documentation locally in ..\\QGIS-Documentation\\build\\html\\docs.
-
-Testing Python snippets
-=======================
-
-To test Python code snippets, you need a *QGIS* installation, for this there are many options:
-
-You can use your system *QGIS* installation with *Sphinx* from Python virtual environment:
-
-.. code-block:: bash
-
-   make -f venv.mk doctest
-
-You can use a manually built installation of *QGIS*, to do so, you need to create a custom ``Makefile``
-extension on top of the ``venv.mk`` file, for example a ``user.mk`` file with the following content:
-
-.. code-block:: mk
-
-  # Root installation folder
-  QGIS_PREFIX_PATH = /home/user/apps/qgis-master
-
-  # Or build output folder
-  QGIS_PREFIX_PATH = /home/user/dev/QGIS-build-master/output
-
-  include venv.mk
-
-Then use it to run target ``doctest``:
-
-.. code-block:: bash
-
-   make -f user.mk doctest
-
-Or you can run target ``doctest`` inside the official *QGIS* docker image:
-
-.. code-block:: bash
-
-  make -f docker.mk doctest
-
-Note that only code blocks with directive ``testcode`` are tested and it is possible to run tests setup code
-which does not appear in documentation with directive ``testsetup``, for example:
-
-.. code-block:: py
-
- .. testsetup::
-
-     from qgis.core import QgsCoordinateReferenceSystem
-
- .. testcode::
-
-     # PostGIS SRID 4326 is allocated for WGS84
-     crs = QgsCoordinateReferenceSystem(4326, QgsCoordinateReferenceSystem.PostgisCrsId)
-     assert crs.isValid()
-
-For more information see *Sphinx* doctest extension documentation:
-https://www.sphinx-doc.org/en/master/usage/extensions/doctest.html
-
 
 Translating the English QGIS Documentation
 ==========================================

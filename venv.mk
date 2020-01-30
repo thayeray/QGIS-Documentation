@@ -42,4 +42,3 @@ include Makefile
 html: venv/REQUIREMENTS.timestamp
 gettext: venv/REQUIREMENTS.timestamp
 fasthtml: venv/REQUIREMENTS.timestamp
-doctest: venv/REQUIREMENTS.timestamp
