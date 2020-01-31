@@ -1,259 +1,109 @@
-******************
-QGIS Documentation
-******************
-
-.. image:: https://travis-ci.org/qgis/QGIS-Documentation.svg?branch=master
-    :target: https://travis-ci.org/qgis/QGIS-Documentation
 
-.. contents::
-   :local:
+Build on Linux
+==============
 
-Introduction
-============
+Best to build in a Python Virtual Environment
 
-This repository is meant to write and manage the Official Documentation of
-`QGIS <https://qgis.org>`_, a free and Open Source Geographic Information System (GIS)
-Software, under the `Open Source Geospatial (OSGeo) <https://www.osgeo.org>`_ foundation umbrella.
-
-QGIS is developed using the Qt toolkit, C++ and Python and runs on Linux, macOS and Windows platforms.
-It is released under the GNU General Public License version 2 or greater.
-Source files at https://github.com/qgis/QGIS.
-
-QGIS aims to be an easy to use GIS, providing common functions and features. QGIS supports a number
-of raster, vector and mesh data formats, as well as important web service
-protocols, such as WMS, WFS and WCS. Support for new formats and
-protocols can easily be added using the plugin architecture.
-More information and download link at https://qgis.org.
-
-QGIS documentation is available at https://docs.qgis.org:
-
-* The latest stable documentation and translations are on https://docs.qgis.org/latest and its PDF versions
-  are available at https://docs.qgis.org/latest/pdf.
-* The ongoing work for future releases is published as QGIS Testing Documentation.
-  It's built from the ``master`` branch and NOT translated. QGIS Testing Documentation
-  is on https://docs.qgis.org/testing and https://docs.qgis.org/testing/pdf/
-
-Documentation is published for every long term release and is available for QGIS
-`3.10 <https://docs.qgis.org/3.10>`_,
-`3.4 <https://docs.qgis.org/3.4>`_,
-`2.18 <https://docs.qgis.org/2.18>`_,
-`2.14 <https://docs.qgis.org/2.14>`_,
-`2.6 <https://docs.qgis.org/2.6>`_,
-`2.2 <https://docs.qgis.org/2.2>`_,
-`2.0 <https://docs.qgis.org/2.0>`_
-and `1.8 <https://docs.qgis.org/1.8>`_.
-Translations and PDF versions are also provided.
-
-The documentation web site contents and the PDFs are generated using
-`Sphinx <http://sphinx-doc.org/>`_,
-based on `restructured text sources (rst) <http://docutils.sourceforge.net/rst.html>`_
-and html (jinja2) templates.
-
-Most sources are in source/docs. Only frontpage and landing pages are in theme/qgis-theme
-
-Styling is in theme/qgis-theme. This theme is used for website and documentation builds.
-The website version is the canonical one.
+To check/create the venv and use it in the build::
 
-Partial / faster building
-=========================
+ make -f venv.mk html
 
-Because of the size of the documentation, the building of the full docs can take up a long time.
+The venv.mk will create/update a virt env (if not availablie ) in current dir/venv AND run the html build in it.
 
-You can decide to only build certain parts of the documentation by editing the source/conf.py file.
+If you want for some reason start from scratch::
 
-Uncomment the lines for the modules that you do NOT want to build in this part of source/conf.py:
+ make -f venv.mk cleanall
 
-.. code-block:: py
+You can also use that virtual environment later doing::
 
- # List of patterns, relative to source directory, that match files and
- # directories to ignore when looking for source files.
- exclude_patterns = ['../output', "../i18n", "../resources", "../scripts"]
- # for faster builds, you can exclude certain parts from the build
- # uncomment one or more lines below, or construct such line yourself
- # uncomment to exclude the processing algs from build
- #exclude_patterns += ['docs/user_manual/processing_algs/*']
- # uncomment to exclude the user manual from build
- #exclude_patterns += ['docs/user_manual/*']
- # uncomment to exclude training manual from build
- #exclude_patterns += ['docs/training_manual/*']
- # uncomment to exclude dev guides from build
- #exclude_patterns += ['docs/developers_guide/*']
- # uncomment to exclude doc guides from build
- #exclude_patterns += ['docs/documentation_guidelines/*']
- # uncomment to exclude gentle intro  from build
- #exclude_patterns += ['docs/gentle_gis_introduction/*']
- # uncomment to exclude pyqgis dev book from build
- #exclude_patterns += ['docs/pyqgis_developer_cookbook/*']
+ source/bin/activate
 
+to activate the venv and then run the build from within that venv::
 
-Building the documentation using Make
-=====================================
+ make html
 
-Building is only tested on Linux systems using make, on windows we now started a Paver setup (see below)
+Alternative
+...........
 
-* ``make -f venv.mk html`` to build the english language
-* ``make -f venv.mk LANG=nl html`` to build the dutch version
+You can also use your own virtual env by creating it using it first::
 
-Note that with option ``-f venv.mk``, ``make`` will create and use a Python3 virtual environment with
-required dependencies in ``/venv`` folder on the fly. Once created you can activate this virtual environment
-using:
+ # you NEED python >3.6. Depending on distro either use `python3` or `python`
+ # common name is 'venv' but call it whatever you like
 
-.. code-block:: bash
+ python3 -m venv venv  # using the venv module, create a venv named 'venv'
 
-   source venv/bin/activate
+Then activate the venv and install the requirements via the REQUIRMENTS.txt::
 
-No need to use option ``-f venv.mk`` after that.
+ source ./venv/bin/activate
+ # using --pre here to get the not released yet 2.0 version of Sphinx
+ pip install --pre -r REQUIREMENTS.txt
 
-Speed up the documentation build
---------------------------------
+and run the build from within that venv::
 
-Running ``make html`` generates **from scratch** the full english documentation.
-You can see from the output that after it removes the content from static it runs the
-``sphinx-build -nW -b html -d output/doctrees  -D language=en -A language=en source output/html/en`` command.
-If you change something in the documentation source and you want to preview the changes you shouldn't reuse
-``make html`` command as it will fully rebuild everything. This takes a lot of time.
-It's far better to use the ``sphinx-build`` command so it only builds the parts from the files that have been
-changed. This ensures a very short build time (several seconds). Pay attention that if you add images in the
-``resources`` directory they won't be copied  into the ``static`` directory if you don't use the ``make``
-command. This means that your ``sphinx-build`` command won't find the new images. If you still want to build
-fast you should copy the new images from ``resources`` to their corresponding location under ``static``.
-Keep in mind that different options of the ``make`` command (presented down the page) are outputting different
-``sphinx-build`` commands.
+ make html
 
-You should also be aware that the ``make ..`` commands are made for production purposes which translates that
-the build will stop at the first inconsistency because of the ``sphinx-build -nW ..`` command. You should drop
-the ``-W`` option if you want your build to fully complete (with warnings of course)
-(e.g. ``sphinx-build -n -b html -d output/doctrees  -D language=en -A language=en source output/html/en``).
+Want to build your own language? Note that you will use the translations from the
+po files from git! For example for 'nl' do::
 
+ make LANG=nl html
 
-If you want add the QGIS-Documentation docs into the build, you either need
-to manually copy the sources, resources and po files into the website project.
-Or use the fullhtml target of make (which will checkout the branch):
+Build on Windows
+================
 
-.. code-block:: bash
+You need to install git (https://git-scm.com/download/win) and Python3 (https://www.python.org/downloads/windows/)
 
-    # to build english:
-    make fullhtml
-    # to build eg dutch:
-    make LANG=nl fullhtml
+Install both in default places and with default options.
 
-Trying to build a fullhtml you might get an Exception: ``No user credentials found for host https://www.transifex.com``.
-To fix this, add a ``~/.transifexrc`` file stored in the user's home directory with following information::
+Clone the repository, and go into that directory.
 
-    [https://www.transifex.com]
-    username = user
-    token =
-    password = p@ssw0rd
-    hostname = https://www.transifex.com
+Then create a virtual environment called 'venv' in that directory, and activate it (Google for Python Virtual Env on Windows for more details):
 
-To gather new strings in a pot (.po) file for your language, and merge them with
-existing translations in the po files (normally to be run by your language maintainer):
+::
 
-.. code-block:: bash
+ pip install -r REQUIREMENTS.txt venv
+ # in dos box:
+ venv\Scripts\activate.bat
+ make.bat
 
-  make pretranslate LANG=xx  # where xx is your language code
+Want to build your own language? Note that you will use the translations from the
+po files from git! For example 'nl' do::
 
-To add a new language (the scripts will need some directory structure):
+ set SPHINXOPTS=-D language=nl
+ make.bat
 
-.. code-block:: bash
 
-  make createlang LANG=xx
 
-See the website in action: http://www.qgis.org
+Translating
+===========
 
-Building PDF
-------------
+http://www.sphinx-doc.org/en/master/usage/advanced/intl.html
 
-You will need to install **texi2pdf** by doing:
+https://pypi.org/project/sphinx-intl/
 
-.. code-block:: bash
-   
-  # On Debian based systems
-  sudo apt-get install texinfo
-  # On Fedora based systems
-  sudo yum install texinfo-tex
+https://docs.transifex.com/integrations/transifex-github-integration
 
-Alike the html build command, you need to run make with the option to build pdf
-(pdf also builds the html output):
+We created a script to create the transifex yaml files for github-transifex integrations::
 
-.. code-block:: bash
+ .\scripts\create_transifex_yaml.sh
 
- make LANG=xx pdf
+To create the .tx/config to push/pull using tx client do::
 
+ sphinx-intl create-txconfig
+ sphinx-intl update-txconfig-resources --transifex-project-name qgisdoc
 
-Building the Documentation using Windows - minimal setup
-========================================================
-Prerequisites:
+To update the english po files (which are being used as SOURCE files in transifex)::
 
-- Python 3.5 or higher (https://www.python.org/downloads/windows/)
-- Pip (https://pip.pypa.io/en/stable/installing/)
-- Virtualenv (https://virtualenv.pypa.io/en/latest/installation/)
+ # FIRST create the pot files in build/gettext (po file be based on those pot files)
+ make gettext
+ # then update the english po files only:
+ sphinx-intl update -p build/gettext -l en
 
-#. Create a local copy of **your** QGIS doc repository.
- 
-   .. code-block:: bash
+To update all po files (which we do not use if we do github-transifex integration!!!)::
 
-     $ git clone https://github.com/<YourName>/QGIS-Documentation.git
+ export SPHINXINTL_LANGUAGE=de,nl, ...
+ # is the same same as
+ sphinx-intl <command> --language=de --language=nl ...
 
-#. Create a virtual environment, e.g., *venv* in the folder just created 
-   (*QGIS-Documentation*).
 
-   .. code-block:: bash
 
-     $ cd QGIS-Documentation
-     $ Virtualenv venv
-  
-#. Activate the virtual environment. 
-   On Windows, virtualenv creates a batch file that can be located at:
-   
-   venv\\Scripts\\activate.bat. 
-   
-   Using the Command Prompt just run this script as follows: 
 
-   .. code-block:: bash
-
-     $ activate.bat
-
-   This script will modify your shell prompt to indicate which environment is currently active.  
-
-#. Install the required packages for locally building the QGIS documentation executing:
-
-   .. code-block:: bash
-
-     $ pip install -r REQUIREMENTS.txt . 
-
-#. Now you are ready to build the QGIS documentation locally. To do that you run the following sphinx command:
-
-   .. code-block:: bash
-
-     $ sphinx-build -M html source build
-
-   This will generate the documentation locally in ..\\QGIS-Documentation\\build\\html\\docs.
-
-Translating the English QGIS Documentation
-==========================================
-
-Translating of the Documentation is handled via transifex: http://www.transifex.com
-
-ONLY the current stable branch is translated.
-
-If you want to help translating: create an account and join one of the translation
-teams of the qgis project: https://www.transifex.com/organization/qgis
-
-Every language has it's own maintainer, please contact them, if you want to help.
-You find a list of current language maintainers at the end of this document. If
-your language is not listed, please contact the `QGIS-Community-Team Mailinglist
-<http://lists.osgeo.org/mailman/listinfo/qgis-community-team>`_ and ask for help.
-
-
-Authors and translators
-=======================
-
-The English QGIS manual (Master Document) and its translation is managed by the
-Community Assistant (Manual Team Lead) and supported by additional language
-specific teams.
-
-A list of contributors is available at
-https://docs.qgis.org/testing/en/docs/user_manual/preamble/contributors.html
-
-To join us, find information at https://qgis.org/en/site/getinvolved/index.html
