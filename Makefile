@@ -30,7 +30,7 @@ help:
 
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile doctest
+.PHONY: help Makefile doctest html fasthtml springclean gettext
 
 springclean:
 	rm -r $(BUILDDIR)
@@ -60,3 +60,6 @@ site: html
 
 doctest:
 	$(SPHINXBUILD) -b doctest $(ALLSPHINXOPTS) $(BUILDDIR)/doctest
+
+fasthtml: updatestatic
+	$(SPHINXBUILD) -n -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html/$(LANG)
