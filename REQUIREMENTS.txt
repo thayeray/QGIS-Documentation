@@ -2,3 +2,4 @@ Sphinx==2.3.1
 sphinx-intl==2.0.0
 sphinx_rtd_theme
 pyyaml
+git+https://github.com/DelazJ/sphinxcontrib-disqus@v1.1.1#egg=sphinxcontrib-disqus
