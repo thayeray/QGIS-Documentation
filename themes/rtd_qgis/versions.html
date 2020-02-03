@@ -9,7 +9,9 @@
     <div class="rst-other-versions">
       <dl>
         <dt>{{ _('Languages') }}</dt>
-        {# List the languages we tranlate to here. #}
+        {% for slug, url in supported_languages %}
+          <dd><a href="{{ url }}">{{ slug }}</a></dd>
+        {% endfor %}
       </dl>
 
       <dl>

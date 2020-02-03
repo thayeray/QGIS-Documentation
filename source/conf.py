@@ -144,6 +144,7 @@ html_context = {
 
 html_favicon = 'static/common/qgis_logo.ico'
 
+supported_languages = cfg['supported_languages'].replace(' ','').split(',')
 version_list = cfg['version_list'].replace(' ','').split(',')
 url = cfg['docs_url']
 if not url.endswith('/'):
@@ -156,6 +157,7 @@ context = {
     # 'READTHEDOCS': True,
     'version_downloads': False,
     'versions': [ [v, url+v] for v in version_list],
+    'supported_languages': [ [l, url+version+'/'+l] for l in supported_languages],
     # 'downloads': [ ['PDF', '/builders.pdf'], ['HTML', '/builders.tgz'] ],
 }
 
