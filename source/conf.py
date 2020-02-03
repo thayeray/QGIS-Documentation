@@ -65,14 +65,20 @@ exclude_patterns = []
 
 # This config value contains the locations and names of other projects that
 # should be linked to in this documentation.
-intersphinx_mapping = {'pyqgis_api': ('https://qgis.org/pyqgis/{}/'.format(version if version != 'testing' else 'master'), None)}
+
+pyqgis_version = version if version != 'testing' else 'master'
+intersphinx_mapping = {'pyqgis_api': ('https://qgis.org/pyqgis/{}/'.format(pyqgis_version), None)}
 
 # This config value must be a dictionary of external sites, mapping unique short
 # alias names to a base URL and a prefix.
-extlinks = {'api': ('https://qgis.org/api/{}%s'.format(''.join([version, '/']) if version != 'testing' else ''), None),
-            'pyqgis': ('https://qgis.org/pyqgis/{}/%s'.format(version if version != 'testing' else 'master'), None),
-            'source': ('https://github.com/qgis/QGIS/blob/{}/%s'.format(
-                ''.join(['release-', version]).replace('.', '_') if version != 'testing' else 'master'), None)
+
+api_version = version if version != 'testing' else ''
+source_version = ''.join(['release-', version]).replace('.', '_') if version != 'testing' else 'master'
+
+extlinks = {'api': ('https://qgis.org/api/{}/%s'.format(api_version), None),
+            'pyqgis': ('https://qgis.org/pyqgis/{}/%s'.format(pyqgis_version), None),
+            'source': ('https://github.com/qgis/QGIS/tree/{}/%s'.format(
+                source_version), None)
            }
 
 
@@ -159,6 +165,9 @@ context = {
     'versions': [ [v, url+v] for v in version_list],
     'supported_languages': [ [l, url+version+'/'+l] for l in supported_languages],
     # 'downloads': [ ['PDF', '/builders.pdf'], ['HTML', '/builders.tgz'] ],
+    'pyqgis_version': pyqgis_version,
+    'source_version': source_version,
+    'api_version': api_version
 }
 
 if 'html_context' in globals():
