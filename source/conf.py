@@ -146,6 +146,13 @@ html_context = {
     "github_repo": "QGIS-Documentation", # Repo name
     "github_version": version, # '{}'.format("master" if version="testing" else version), # Version
     "conf_py_path": "/source/", # Path in the checkout to the docs root
+
+    # When a QGIS version reaches end of life, set this to True to show an information
+    # message on the top of the page.
+    'outdated': False,
+    # When a new QGIS version is released, set this to False to remove the disclaimer
+    # information message on the top of the page.
+    'isTesting': True
 }
 
 html_favicon = 'static/common/qgis_logo.ico'
