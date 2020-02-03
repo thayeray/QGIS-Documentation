@@ -155,7 +155,6 @@ if version not in version_list:
 context = {
     # 'READTHEDOCS': True,
     'version_downloads': False,
-    'current_version': version,
     'versions': [ [v, url+v] for v in version_list],
     # 'downloads': [ ['PDF', '/builders.pdf'], ['HTML', '/builders.tgz'] ],
 }
