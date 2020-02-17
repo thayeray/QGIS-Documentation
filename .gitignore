@@ -3,3 +3,4 @@
 build
 user.mk
 venv
+source/static/

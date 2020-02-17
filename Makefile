@@ -8,6 +8,7 @@ SPHINXINTLOPTS  = $(SPHINXOPTS) -D language=$(LANG)
 SPHINXBUILD     ?= sphinx-build
 SPHINXINTL      ?= sphinx-intl
 SOURCEDIR       = source
+RESOURCEDIR     = static
 BUILDDIR        = build
 SITEDIR         = /var/www/html/qgisdocs
 
@@ -39,7 +40,12 @@ springclean:
 gettext:
 	@$(SPHINXBUILD) -M gettext "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-html:
+updatestatic:
+	@echo
+	@echo "Updating static content into $(SOURCEDIR)/static."
+	rsync -uthvr --delete $(RESOURCEDIR)/ $(SOURCEDIR)/static
+
+html: updatestatic
 	echo "$(SPHINXOPTS) $(SPHINXINTLOPTS)"
 	if [ $(LANG) != "en" ]; then \
 		$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXINTLOPTS) $(0); \
