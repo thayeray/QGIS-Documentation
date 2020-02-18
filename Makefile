@@ -63,3 +63,9 @@ doctest:
 
 fasthtml: updatestatic
 	$(SPHINXBUILD) -n -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html/$(LANG)
+
+pdf: updatestatic
+	$(SPHINXBUILD) -M latexpdf "$(SOURCEDIR)" "$(BUILDDIR)/pdf/$(LANG)"
+	@echo "Running LaTeX files through pdflatex..."
+	make -C $(BUILDDIR)/pdf/$(LANG) all-pdf
+	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/pdf/$(LANG)."
